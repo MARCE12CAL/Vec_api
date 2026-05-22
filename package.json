@@ -1,0 +1,37 @@
+{
+  "name": "amelia-factbot",
+  "version": "1.0.0",
+  "description": "WhatsApp Bot for billing queries using Baileys and Sequelize",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon --ignore auth_info_baileys/ --ignore *.log src/index.js",
+    "db:create": "sequelize-cli db:create",
+    "db:migrate": "sequelize-cli db:migrate",
+    "db:seed:all": "sequelize-cli db:seed:all",
+    "db:migrate:undo:all": "sequelize-cli db:migrate:undo:all"
+  },
+  "keywords": [
+    "whatsapp",
+    "bot",
+    "baileys",
+    "sequelize",
+    "billing"
+  ],
+  "author": "Antigravity",
+  "license": "ISC",
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.9",
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "link-preview-js": "^3.0.12",
+    "mysql2": "^3.12.0",
+    "pino": "^9.6.0",
+    "qrcode-terminal": "^0.12.0",
+    "sequelize": "^6.37.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "sequelize-cli": "^6.6.2"
+  }
+}
