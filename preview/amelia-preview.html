@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Amelia FactBot — Guía de mensajes WhatsApp</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+      background: #e5ddd5;
+      padding: 16px;
+    }
+    .header {
+      max-width: 480px;
+      margin: 0 auto 12px;
+      background: #075e54;
+      color: #fff;
+      padding: 14px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    .header small { display: block; font-weight: 400; opacity: .9; font-size: 12px; margin-top: 6px; line-height: 1.4; }
+    .chat {
+      max-width: 480px;
+      margin: 0 auto;
+      background: #efeae2;
+      padding: 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.12);
+    }
+    .part {
+      background: #075e54;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 10px 12px;
+      margin: 20px 0 12px;
+      border-radius: 6px;
+    }
+    .part:first-child { margin-top: 0; }
+    .menu-block {
+      background: #f0f8f0;
+      border: 1px solid #c8e6c9;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 14px;
+    }
+    .menu-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #2e7d32;
+      margin-bottom: 8px;
+    }
+    .menu-label i { margin-right: 4px; }
+    .option-card {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 12px;
+    }
+    .option-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #075e54;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #d9fdd3;
+    }
+    .option-title i { margin-right: 4px; }
+    .step-label {
+      font-size: 11px;
+      font-weight: 600;
+      margin: 8px 0 4px;
+    }
+    .step-label i { margin-right: 3px; }
+    .user-label { color: #1b7a3d; }
+    .bot-label  { color: #027eb5; }
+    .bubble {
+      padding: 8px 10px;
+      font-size: 14px;
+      line-height: 1.45;
+      max-width: 95%;
+      word-wrap: break-word;
+      box-shadow: 0 1px 0.5px rgba(0,0,0,.1);
+    }
+    .bubble.bot  { background: #fff; border-radius: 8px 8px 8px 0; margin-bottom: 6px; }
+    .bubble.user { background: #d9fdd3; border-radius: 8px 8px 0 8px; margin-left: auto; margin-bottom: 6px; }
+    .bubble i { font-size: 15px; vertical-align: middle; margin-right: 2px; }
+    .hint {
+      max-width: 480px;
+      margin: 16px auto 0;
+      font-size: 13px;
+      color: #54656f;
+      text-align: center;
+    }
+    .num { font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <i class="bi bi-robot"></i> Amelia FactBot — Guía por sección
+    <small>Cada bloque muestra el menú que aparece y, por cada opción, qué escribe el usuario y qué responde el bot.</small>
+  </div>
+  <div class="chat">
+
+    <!-- ─────────────────────────────────────── 1. BIENVENIDA ── -->
+    <div class="part">1. INICIO — Bienvenida (sin sesión)</div>
+
+    <div class="menu-block">
+      <div class="menu-label"><i class="bi bi-list-ul"></i> Menú al escribir cualquier mensaje</div>
+      <div class="bubble bot">
+        <strong><i class="bi bi-robot"></i> Amelia FactBot</strong><br>
+        <em>Sistema de facturación</em><br>
+        ━━━━━━━━━━━━━━━━━━━━━━<br>
+        Consulta tus ventas, clientes y artículos en tiempo real desde WhatsApp.<br><br>
+        <span class="num">1.</span> <i class="bi bi-lock-fill"></i> Iniciar sesión<br>
+        <span class="num">2.</span> <i class="bi bi-question-circle-fill"></i> Ayuda<br><br>
+        <em>Responde con el número <i class="bi bi-pencil-fill"></i></em>
+      </div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-lock-fill"></i> Opción 1 — Iniciar sesión</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario escribe:</div>
+      <div class="bubble user">1</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta del bot</div>
+      <div class="bubble bot">Ingresa tu <strong>RUC o Cédula</strong> de empresa:</div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-question-circle-fill"></i> Opción 2 — Ayuda</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario escribe:</div>
+      <div class="bubble user">2</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta del bot</div>
+      <div class="bubble bot">
+        <strong>AMELIA FACTBOT — AYUDA</strong><br><br>
+        Para acceder al sistema:<br>
+        1. Toca <strong>Iniciar sesión</strong><br>
+        2. Ingresa el RUC de tu empresa<br>
+        3. Ingresa tu clave de acceso<br><br>
+        Módulos disponibles:<br>
+        • Ventas — facturas y resumen mensual<br>
+        • Clientes — top 10, buscar, historial<br>
+        • Artículos — más vendidos, buscar
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────── 1b. LOGIN ── -->
+    <div class="part">1b. INICIO — Tras elegir Iniciar sesión</div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-card-text"></i> Paso — Usuario escribe el RUC</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario escribe:</div>
+      <div class="bubble user">1791234567001</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta del bot</div>
+      <div class="bubble bot">Empresa: <strong>EMPRESA ABC S.A.</strong><br><br>Ingresa tu <strong>clave</strong> de acceso:</div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-lock-fill"></i> Paso — Usuario escribe la clave</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario escribe:</div>
+      <div class="bubble user">admin123</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta del bot</div>
+      <div class="bubble bot"><i class="bi bi-check-circle-fill"></i> Bienvenido, <strong>EMPRESA ABC S.A.</strong></div>
+    </div>
+
+    <!-- ─────────────────────────────────── 2. MENÚ PRINCIPAL ── -->
+    <div class="part">2. MENÚ PRINCIPAL (logueado)</div>
+
+    <div class="menu-block">
+      <div class="menu-label"><i class="bi bi-list-ul"></i> Menú tras login exitoso</div>
+      <div class="bubble bot">
+        <strong>EMPRESA ABC S.A.</strong><br>
+        ━━━━━━━━━━━━━━━━━━━━━━<br>
+        ¿Qué deseas consultar?<br><br>
+        <i class="bi bi-dot"></i> <strong>Módulos</strong><br>
+        <span class="num">1.</span> <i class="bi bi-bar-chart-fill"></i> Ventas  <em>Facturas y resumen mensual</em><br>
+        <span class="num">2.</span> <i class="bi bi-people-fill"></i> Clientes  <em>Top 10 · Buscar · Historial</em><br>
+        <span class="num">3.</span> <i class="bi bi-box-seam-fill"></i> Artículos  <em>Más vendidos · Buscar</em><br><br>
+        <i class="bi bi-dot"></i> <strong>Sesión</strong><br>
+        <span class="num">4.</span> <i class="bi bi-door-open-fill"></i> Cerrar sesión<br><br>
+        <em>Responde con el número <i class="bi bi-pencil-fill"></i></em>
+      </div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-bar-chart-fill"></i> Opción 1 — Ventas</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario escribe:</div>
+      <div class="bubble user">1</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta → menú Ventas</div>
+      <div class="bubble bot">
+        <strong>VENTAS</strong><br>━━━━━━━━━━━━━━━━━━━━━━<br>
+        ¿Qué tipo de consulta deseas realizar?<br><br>
+        <i class="bi bi-dot"></i> <strong>Consultas</strong><br>
+        <span class="num">1.</span> <i class="bi bi-receipt"></i> Detallado por factura  <em>Buscar por fecha, cliente o N° de factura</em><br>
+        <span class="num">2.</span> <i class="bi bi-bar-chart-fill"></i> Resumen mensual  <em>Totales, IVA y comprobantes por período</em><br>
+        <span class="num">3.</span> <i class="bi bi-file-earmark-arrow-down-fill"></i> Descargar Excel  <em>Resumen en archivo .xlsx</em><br><br>
+        <i class="bi bi-dot"></i> <strong>Navegación</strong><br>
+        <span class="num">4.</span> <i class="bi bi-arrow-left"></i> Menú principal<br><br>
+        <em>Responde con el número <i class="bi bi-pencil-fill"></i></em>
+      </div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-people-fill"></i> Opción 2 — Clientes</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario escribe:</div>
+      <div class="bubble user">2</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta → menú Clientes</div>
+      <div class="bubble bot">
+        <strong>CLIENTES</strong><br>━━━━━━━━━━━━━━━━━━━━━━<br>
+        ¿Qué deseas consultar?<br><br>
+        <i class="bi bi-dot"></i> <strong>Consultas</strong><br>
+        <span class="num">1.</span> <i class="bi bi-trophy-fill"></i> Top 10 por monto  <em>Los más facturados del mes</em><br>
+        <span class="num">2.</span> <i class="bi bi-search"></i> Buscar cliente  <em>Por nombre o RUC/cédula</em><br><br>
+        <i class="bi bi-dot"></i> <strong>Navegación</strong><br>
+        <span class="num">3.</span> <i class="bi bi-arrow-left"></i> Menú principal<br><br>
+        <em>Responde con el número <i class="bi bi-pencil-fill"></i></em>
+      </div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-box-seam-fill"></i> Opción 3 — Artículos</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario escribe:</div>
+      <div class="bubble user">3</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta → menú Artículos</div>
+      <div class="bubble bot">
+        <strong>ARTÍCULOS</strong><br>━━━━━━━━━━━━━━━━━━━━━━<br>
+        ¿Qué deseas consultar?<br><br>
+        <i class="bi bi-dot"></i> <strong>Top vendidos</strong><br>
+        <span class="num">1.</span> <i class="bi bi-graph-up-arrow"></i> Top 10 por unidades  <em>Más vendidos en cantidad</em><br>
+        <span class="num">2.</span> <i class="bi bi-currency-dollar"></i> Top 10 por monto  <em>Más vendidos en valor $</em><br><br>
+        <i class="bi bi-dot"></i> <strong>Buscar artículo</strong><br>
+        <span class="num">3.</span> <i class="bi bi-search"></i> Buscar por nombre  <em>Búsqueda parcial por texto</em><br>
+        <span class="num">4.</span> <i class="bi bi-tag-fill"></i> Buscar por código  <em>Código principal exacto</em><br><br>
+        <i class="bi bi-dot"></i> <strong>Navegación</strong><br>
+        <span class="num">5.</span> <i class="bi bi-arrow-left"></i> Menú principal<br><br>
+        <em>Responde con el número <i class="bi bi-pencil-fill"></i></em>
+      </div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-door-open-fill"></i> Opción 4 — Cerrar sesión</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario escribe:</div>
+      <div class="bubble user">4</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta del bot</div>
+      <div class="bubble bot"><i class="bi bi-door-open-fill"></i> Sesión cerrada. Envía cualquier mensaje para volver a ingresar.</div>
+    </div>
+
+    <!-- ─────────────────────────────────── 3. VENTAS ── -->
+    <div class="part">3. VENTAS — Detallado por factura</div>
+
+    <div class="menu-block">
+      <div class="menu-label"><i class="bi bi-list-ul"></i> Submenú filtros de búsqueda</div>
+      <div class="bubble bot">
+        <strong>VENTAS DETALLADAS</strong><br>━━━━━━━━━━━━━━━━━━━━━━<br>
+        ¿Cómo deseas buscar?<br><br>
+        <i class="bi bi-dot"></i> <strong>Filtros de búsqueda</strong><br>
+        <span class="num">1.</span> <i class="bi bi-hash"></i> Por N° de factura  <em>Número exacto de comprobante</em><br>
+        <span class="num">2.</span> <i class="bi bi-person-fill"></i> Por nombre de cliente  <em>Búsqueda parcial por texto</em><br>
+        <span class="num">3.</span> <i class="bi bi-card-text"></i> Por RUC del cliente  <em>Identificación tributaria exacta</em><br>
+        <span class="num">4.</span> <i class="bi bi-calendar-date-fill"></i> Por rango de fechas  <em>Define fecha inicio y fin</em><br><br>
+        <i class="bi bi-dot"></i> <strong>Navegación</strong><br>
+        <span class="num">5.</span> <i class="bi bi-arrow-left"></i> Ventas<br><br>
+        <em>Responde con el número <i class="bi bi-pencil-fill"></i></em>
+      </div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-hash"></i> Opción 1 — Por N° de factura</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario escribe:</div>
+      <div class="bubble user">1</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta del bot</div>
+      <div class="bubble bot"><i class="bi bi-hash"></i> Ingresa el <strong>N° de factura</strong> exacto:</div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-receipt"></i> Paso — Resultado de factura</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario escribe:</div>
+      <div class="bubble user">12</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta del bot</div>
+      <div class="bubble bot"><i class="bi bi-hourglass-split"></i> Buscando factura...</div>
+      <div class="bubble bot">
+        <strong><i class="bi bi-receipt"></i> Factura #12</strong><br>━━━━━━━━━━━━━━━━━━━━━━<br>
+        <i class="bi bi-calendar-date-fill"></i> Fecha: 15/05/2025<br>
+        <i class="bi bi-person-fill"></i> FARMACIA ABC<br>
+        <i class="bi bi-card-text"></i> RUC: 1791234567001<br>
+        ━━━━━━━━━━━━━━━━━━━━<br>
+        Base IVA 12%: $615.62<br>
+        Base IVA 0%:  $178.93<br>
+        IVA cobrado:  $73.87<br>
+        <strong>TOTAL: $890.50</strong><br>
+        ━━━━━━━━━━━━━━━━━━━━<br>
+        • PARACETAMOL 500MG x24 → $480.00<br>
+        • IBUPROFENO 400MG x12 → $410.50<br><br>
+        <span class="num">1.</span> <i class="bi bi-person-fill"></i> Ver ficha cliente<br>
+        <span class="num">2.</span> <i class="bi bi-hash"></i> Otra factura<br>
+        <span class="num">3.</span> <i class="bi bi-arrow-left"></i> Menú principal<br><br>
+        <em>Responde con el número <i class="bi bi-pencil-fill"></i></em>
+      </div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-person-fill"></i> Opción 2 — Por nombre de cliente</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario escribe:</div>
+      <div class="bubble user">farmacia</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta del bot</div>
+      <div class="bubble bot"><i class="bi bi-hourglass-split"></i> Buscando facturas...</div>
+      <div class="bubble bot">
+        <strong>FACTURAS ENCONTRADAS</strong><br>━━━━━━━━━━━━━━━━━━━━━━<br>
+        <strong>4</strong> facturas encontradas. Selecciona una:<br><br>
+        <i class="bi bi-dot"></i> <strong>Facturas</strong><br>
+        <span class="num">1.</span> #12 — $890.50  <em>15/05/2025 · FARMACIA ABC</em><br>
+        <span class="num">2.</span> #11 — $720.00  <em>10/05/2025 · FARMACIA ABC</em><br>
+        <span class="num">3.</span> #8 — $1250.00  <em>08/05/2025 · DISTRIBUIDORA XYZ</em><br>
+        <span class="num">4.</span> #5 — $680.00  <em>03/05/2025 · COMERCIAL NORTE</em><br><br>
+        <em>Responde con el número <i class="bi bi-pencil-fill"></i></em>
+      </div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-card-text"></i> Opción 3 — Por RUC del cliente</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario escribe:</div>
+      <div class="bubble user">1791234567001</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta del bot</div>
+      <div class="bubble bot"><i class="bi bi-hourglass-split"></i> Buscando facturas...</div>
+      <div class="bubble bot">
+        <strong>FACTURAS ENCONTRADAS</strong><br>━━━━━━━━━━━━━━━━━━━━━━<br>
+        <strong>4</strong> facturas encontradas. Selecciona una:<br><br>
+        <i class="bi bi-dot"></i> <strong>Facturas</strong><br>
+        <span class="num">1.</span> #12 — $890.50  <em>15/05/2025 · FARMACIA ABC</em><br>
+        <span class="num">2.</span> #11 — $720.00  <em>10/05/2025 · FARMACIA ABC</em><br><br>
+        <em>Responde con el número <i class="bi bi-pencil-fill"></i></em>
+      </div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-calendar-date-fill"></i> Opción 4 — Por rango de fechas</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario escribe:</div>
+      <div class="bubble user">01/05/2025</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta del bot</div>
+      <div class="bubble bot"><i class="bi bi-calendar-date-fill"></i> Ingresa la <strong>fecha de fin</strong> (dd/mm/aaaa):</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario escribe:</div>
+      <div class="bubble user">31/05/2025</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta del bot</div>
+      <div class="bubble bot"><i class="bi bi-hourglass-split"></i> Buscando facturas...</div>
+    </div>
+
+    <!-- ─────────────────────────────────── 3b. RESUMEN ── -->
+    <div class="part">3b. VENTAS — Resumen mensual</div>
+
+    <div class="menu-block">
+      <div class="menu-label"><i class="bi bi-list-ul"></i> Submenú períodos</div>
+      <div class="bubble bot">
+        <strong>RESUMEN MENSUAL</strong><br>━━━━━━━━━━━━━━━━━━━━━━<br>
+        ¿Qué período deseas consultar?<br><br>
+        <i class="bi bi-dot"></i> <strong>Períodos predefinidos</strong><br>
+        <span class="num">1.</span> <i class="bi bi-calendar-date-fill"></i> Este mes  <em>Mes en curso</em><br>
+        <span class="num">2.</span> <i class="bi bi-calendar-date-fill"></i> Mes anterior  <em>Período anterior completo</em><br>
+        <span class="num">3.</span> <i class="bi bi-calendar3"></i> Último trimestre  <em>Últimos 3 meses</em><br>
+        <span class="num">4.</span> <i class="bi bi-calendar3"></i> Este año  <em>Desde enero hasta hoy</em><br><br>
+        <i class="bi bi-dot"></i> <strong>Personalizado</strong><br>
+        <span class="num">5.</span> <i class="bi bi-calendar-range-fill"></i> Rango libre  <em>Define fechas inicio y fin</em><br>
+        <span class="num">6.</span> <i class="bi bi-arrow-left"></i> Ventas<br><br>
+        <em>Responde con el número <i class="bi bi-pencil-fill"></i></em>
+      </div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-calendar-date-fill"></i> Opción 1 — Este mes</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario escribe:</div>
+      <div class="bubble user">1</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta del bot</div>
+      <div class="bubble bot"><i class="bi bi-hourglass-split"></i> Calculando resumen <strong>Mayo 2026</strong>...</div>
+      <div class="bubble bot">
+        <strong><i class="bi bi-graph-up-arrow"></i> RESUMEN — Mayo 2026</strong><br>━━━━━━━━━━━━━━━━━━━━━━<br>
+        <i class="bi bi-folder-fill"></i> Facturas emitidas: <strong>45</strong><br>
+        <i class="bi bi-currency-dollar"></i> Total facturado: <strong>$28,900.00</strong><br>
+        <i class="bi bi-bar-chart-fill"></i> Promedio/factura: $642.22<br>
+        ━━━━━━━━━━━━━━━━━━━━<br>
+        Base gravada 12%: $20,000.00<br>
+        Base exenta 0%:   $8,900.00<br>
+        IVA cobrado:      $2,400.00<br><br>
+        <span class="num">1.</span> <i class="bi bi-receipt"></i> Ver facturas<br>
+        <span class="num">2.</span> <i class="bi bi-bar-chart-fill"></i> Otro período<br>
+        <span class="num">3.</span> <i class="bi bi-arrow-left"></i> Menú principal<br><br>
+        <em>Responde con el número <i class="bi bi-pencil-fill"></i></em>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────── 4. CLIENTES ── -->
+    <div class="part">4. CLIENTES — Menú</div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-trophy-fill"></i> Opción 1 — Top 10 por monto</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario escribe:</div>
+      <div class="bubble user">1</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta del bot</div>
+      <div class="bubble bot"><i class="bi bi-hourglass-split"></i> Consultando top clientes del mes...</div>
+      <div class="bubble bot">
+        <strong>TOP 10 CLIENTES — Mayo 2025</strong><br>━━━━━━━━━━━━━━━━━━━━━━<br>
+        Por monto facturado. Toca para ver ficha:<br><br>
+        <i class="bi bi-dot"></i> <strong>Clientes</strong><br>
+        <span class="num">1.</span> #1 FARMACIA ABC  <em>$12,450.00 · 18 facturas</em><br>
+        <span class="num">2.</span> #2 DISTRIBUIDORA XYZ  <em>$8,200.00 · 11 facturas</em><br>
+        <span class="num">3.</span> #3 COMERCIAL NORTE  <em>$5,100.00 · 7 facturas</em><br><br>
+        <em>Responde con el número <i class="bi bi-pencil-fill"></i></em>
+      </div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-person-fill"></i> Ficha de cliente</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario elige cliente:</div>
+      <div class="bubble user">1</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta del bot</div>
+      <div class="bubble bot">
+        <strong><i class="bi bi-person-fill"></i> FARMACIA ABC</strong><br>━━━━━━━━━━━━━━━━━━━━━━<br>
+        <i class="bi bi-card-text"></i> RUC: 1791234567001<br>
+        ━━━━━━━━━━━━━━━━━━━━<br>
+        <i class="bi bi-receipt"></i> Total facturas: <strong>18</strong><br>
+        <i class="bi bi-currency-dollar"></i> Total comprado: <strong>$12,450.00</strong><br>
+        <i class="bi bi-calendar-date-fill"></i> Última compra: 15/05/2025<br><br>
+        <span class="num">1.</span> <i class="bi bi-receipt"></i> Historial de facturas<br>
+        <span class="num">2.</span> <i class="bi bi-search"></i> Buscar otro cliente<br>
+        <span class="num">3.</span> <i class="bi bi-arrow-left"></i> Menú principal<br><br>
+        <em>Responde con el número <i class="bi bi-pencil-fill"></i></em>
+      </div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-search"></i> Opción 2 — Buscar cliente</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Submenú criterio de búsqueda</div>
+      <div class="bubble bot">
+        <strong>BUSCAR CLIENTE</strong><br>━━━━━━━━━━━━━━━━━━━━━━<br>
+        ¿Cómo deseas buscar?<br><br>
+        <i class="bi bi-dot"></i> <strong>Criterio de búsqueda</strong><br>
+        <span class="num">1.</span> <i class="bi bi-person-fill"></i> Por nombre o razón social  <em>Búsqueda parcial por texto</em><br>
+        <span class="num">2.</span> <i class="bi bi-card-text"></i> Por RUC o cédula exacta  <em>Identificación tributaria</em><br><br>
+        <i class="bi bi-dot"></i> <strong>Volver</strong><br>
+        <span class="num">3.</span> <i class="bi bi-arrow-left"></i> Clientes<br><br>
+        <em>Responde con el número <i class="bi bi-pencil-fill"></i></em>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────────────── 5. ARTÍCULOS ── -->
+    <div class="part">5. ARTÍCULOS — Menú</div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-graph-up-arrow"></i> Opción 1 — Top 10 por unidades</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario escribe:</div>
+      <div class="bubble user">1</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta del bot</div>
+      <div class="bubble bot"><i class="bi bi-hourglass-split"></i> Consultando top por unidades...</div>
+      <div class="bubble bot">
+        <strong>TOP UNIDADES — Mayo 2025</strong><br>━━━━━━━━━━━━━━━━━━━━━━<br>
+        Toca un artículo para ver su ficha:<br><br>
+        <i class="bi bi-dot"></i> <strong>Artículos</strong><br>
+        <span class="num">1.</span> #1 PARACETAMOL 500MG  <em>420 und · $8,400.00</em><br>
+        <span class="num">2.</span> #2 AMOXICILINA 500MG  <em>310 und · $6,200.00</em><br>
+        <span class="num">3.</span> #3 IBUPROFENO 400MG  <em>285 und · $5,700.00</em><br><br>
+        <em>Responde con el número <i class="bi bi-pencil-fill"></i></em>
+      </div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-box-seam-fill"></i> Ficha de artículo</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario elige artículo:</div>
+      <div class="bubble user">1</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta del bot</div>
+      <div class="bubble bot">
+        <strong><i class="bi bi-box-seam-fill"></i> PARACETAMOL 500MG</strong><br>━━━━━━━━━━━━━━━━━━━━━━<br>
+        <i class="bi bi-tag-fill"></i> Código: <strong>MED001</strong><br>
+        <i class="bi bi-folder2-open"></i> Grupo: Medicamentos<br>
+        ━━━━━━━━━━━━━━━━━━━━<br><br>
+        <span class="num">1.</span> <i class="bi bi-graph-up-arrow"></i> Ver ventas recientes<br>
+        <span class="num">2.</span> <i class="bi bi-search"></i> Buscar otro artículo<br>
+        <span class="num">3.</span> <i class="bi bi-arrow-left"></i> Menú principal<br><br>
+        <em>Responde con el número <i class="bi bi-pencil-fill"></i></em>
+      </div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-graph-up-arrow"></i> Ventas recientes del artículo</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario escribe:</div>
+      <div class="bubble user">1</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta del bot</div>
+      <div class="bubble bot"><i class="bi bi-hourglass-split"></i> Cargando ventas recientes...</div>
+      <div class="bubble bot">
+        <i class="bi bi-graph-up-arrow"></i> <strong>VENTAS RECIENTES</strong><br>
+        ━━━━━━━━━━━━━━━━━━━━<br>
+        1. 15/05/2025 — FARMACIA ABC<br>
+        &nbsp;&nbsp; Cant: 24 · Total: $480.00<br>
+        2. 10/05/2025 — DISTRIBUIDORA XYZ<br>
+        &nbsp;&nbsp; Cant: 18 · Total: $360.00<br>
+        3. 05/05/2025 — COMERCIAL NORTE<br>
+        &nbsp;&nbsp; Cant: 12 · Total: $240.00
+      </div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-search"></i> Opción 3 — Buscar por nombre</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario escribe:</div>
+      <div class="bubble user">paracetamol</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta del bot</div>
+      <div class="bubble bot"><i class="bi bi-hourglass-split"></i> Buscando artículos...</div>
+      <div class="bubble bot">
+        <strong>RESULTADOS</strong><br>━━━━━━━━━━━━━━━━━━━━━━<br>
+        <strong>2</strong> artículos encontrados. Selecciona uno:<br><br>
+        <i class="bi bi-dot"></i> <strong>Artículos</strong><br>
+        <span class="num">1.</span> PARACETAMOL 500MG  <em>Cód: MED001 · Medicamentos</em><br>
+        <span class="num">2.</span> PARACETAMOL GOTAS  <em>Cód: MED099 · Medicamentos</em><br><br>
+        <em>Responde con el número <i class="bi bi-pencil-fill"></i></em>
+      </div>
+    </div>
+
+    <div class="option-card">
+      <div class="option-title"><i class="bi bi-tag-fill"></i> Opción 4 — Buscar por código</div>
+      <div class="step-label user-label"><i class="bi bi-person-fill"></i> Usuario escribe:</div>
+      <div class="bubble user">MED001</div>
+      <div class="step-label bot-label"><i class="bi bi-robot"></i> Respuesta del bot</div>
+      <div class="bubble bot"><i class="bi bi-hourglass-split"></i> Buscando artículo...</div>
+    </div>
+
+  </div>
+  <p class="hint"><code>npm run preview:wa</code> para regenerar · Datos ejemplo en <code>src/preview/previewSamples.js</code></p>
+</body>
+</html>

@@ -2,16 +2,16 @@ const authService = require('../services/authService');
 const { updateSession, resetSession } = require('../sessionManager');
 const waHelpers = require('../utils/waHelpers');
 const menuHandler = require('./menuHandler');
+const IC = require('../utils/icons');
 
 async function showWelcome(sock, jid) {
   await waHelpers.sendButtons(
-    sock,
-    jid,
-    '🤖 Amelia FactBot',
+    sock, jid,
+    `${IC.BOT} Amelia FactBot`,
     'Consulta tus ventas, clientes y artículos en tiempo real desde WhatsApp.',
     [
-      { id: 'iniciar_login', text: '🔐 Iniciar sesión' },
-      { id: 'ayuda',         text: '❓ Ayuda' }
+      { id: 'iniciar_login', text: `${IC.LOCK} Iniciar sesión` },
+      { id: 'ayuda',         text: `${IC.HELP} Ayuda` }
     ],
     'Sistema de facturación'
   );
@@ -45,20 +45,14 @@ async function handleWelcome(sock, jid, messageText, session) {
   await showWelcome(sock, jid);
 }
 
-// Estado AWAITING_RUC: espera el número ingresado por el usuario
 async function handleRuc(sock, jid, messageText, session) {
   const cleanInput = messageText.trim();
-
   const company = await authService.getCompanyByRuc(cleanInput);
-
   if (company) {
-    await updateSession(session.phoneNumber, {
-      tempRuc: cleanInput,
-      state: 'AWAITING_PASSWORD'
-    });
+    await updateSession(session.phoneNumber, { tempRuc: cleanInput, state: 'AWAITING_PASSWORD' });
     await waHelpers.sendText(sock, jid, `Empresa: *${company.COM_NOMBRE}*\n\nIngresa tu *clave* de acceso:`);
   } else {
-    await waHelpers.sendText(sock, jid, "❌ RUC o Cédula no registrado. Inténtalo nuevamente:");
+    await waHelpers.sendText(sock, jid, `${IC.ERROR} RUC o Cédula no registrado. Inténtalo nuevamente:`);
   }
 }
 
@@ -80,18 +74,18 @@ async function handlePassword(sock, jid, messageText, session) {
   }
 
   const user = await authService.validateUser(company.COM_CODIGO, tempRuc, password);
-
   if (user) {
     await updateSession(session.phoneNumber, {
       state: 'MAIN_MENU',
       COM_CODIGO: company.COM_CODIGO,
+      COM_NOMBRE: company.COM_NOMBRE,
       tempRuc: null
     });
-    await waHelpers.sendText(sock, jid, `✅ Bienvenido, *${company.COM_NOMBRE}*`);
-    await menuHandler.showMainMenu(sock, jid, company.COM_CODIGO);
+    await waHelpers.sendText(sock, jid, `${IC.SUCCESS} Bienvenido, *${company.COM_NOMBRE}*`);
+    await menuHandler.showMainMenu(sock, jid, company.COM_CODIGO, company.COM_NOMBRE);
   } else {
     await resetSession(session.phoneNumber);
-    await waHelpers.sendText(sock, jid, "❌ Clave incorrecta. Por seguridad se reinició el flujo.");
+    await waHelpers.sendText(sock, jid, `${IC.ERROR} Clave incorrecta. Por seguridad se reinició el flujo.`);
     await showWelcome(sock, jid);
   }
 }

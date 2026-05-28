@@ -1,78 +1,59 @@
 const { sourceDb: db } = require('../sourceDatabase');
-const { Op } = require('sequelize');
+const ameliaApi = require('./ameliaApi');
 
-async function _topArticlesQuery(companyCode, orderByAmount, limit) {
-  const orderCol = orderByAmount ? 't' : 'u';
-  // Subconsulta sobre los últimos 3000 registros usando el PK (índice, respuesta rápida)
-  const sql = `
-    SELECT ART_CODIGO,
-           SUM(DETFAC_CANTIDAD) AS u,
-           SUM(DETFAC_TOTAL)    AS t
-    FROM (
-      SELECT ART_CODIGO, DETFAC_CANTIDAD, DETFAC_TOTAL
-      FROM ven_detfac
-      WHERE COM_CODIGO = ?
-      ORDER BY DETFAC_CODIGO DESC
-      LIMIT 3000
-    ) sub
-    GROUP BY ART_CODIGO
-    ORDER BY ${orderCol} DESC
-    LIMIT ?
-  `;
-  const [rows] = await db.sequelize.query(sql, {
-    replacements: [companyCode, limit]
-  });
-  if (!rows.length) return [];
-
-  const artIds   = rows.map(r => r.ART_CODIGO);
-  const articles = await db.Articulo.findAll({
-    where:   { ART_CODIGO: { [Op.in]: artIds } },
-    include: [{ model: db.Grupo, as: 'Grupo', attributes: ['GRUP_NOMBRE'] }]
-  });
-  const aMap = new Map(articles.map(a => [a.ART_CODIGO, a]));
-
-  return rows.map(r => {
-    const a = aMap.get(r.ART_CODIGO);
-    return {
-      artCodigo: r.ART_CODIGO,
-      nombre:    a ? a.ART_NOMBRE          : 'Desconocido',
-      codigo:    a ? a.ART_CODIGOPRINCIPAL : '',
-      grupo:     (a && a.Grupo) ? a.Grupo.GRUP_NOMBRE : 'General',
-      unidades:  parseFloat(r.u || 0),
-      total:     parseFloat(r.t || 0)
-    };
-  });
+function _mapArticleRow(r) {
+  return {
+    artCodigo: r.artCodigo  || r.ART_CODIGO  || null,
+    nombre:    r.nombre     || r.descripcion || 'Desconocido',
+    codigo:    r.codigo     || r.codPpal     || '',
+    grupo:     r.grupo      || r.categoria   || 'General',
+    unidades:  parseFloat(r.unidades  || r.cantidad || 0),
+    total:     parseFloat(r.total     || 0)
+  };
 }
 
-async function getTopArticlesByUnits(companyCode, _start, _end, limit = 10) {
-  return _topArticlesQuery(companyCode, false, limit);
+async function getTopArticlesByUnits(companyCode, startDate, endDate, limit = 10) {
+  const rows = await ameliaApi.getArticulos(companyCode, startDate, endDate, 'unidades');
+  const list = Array.isArray(rows) ? rows : (rows.data || rows.articulos || []);
+  return list.slice(0, limit).map(_mapArticleRow);
 }
 
-async function getTopArticlesByAmount(companyCode, _start, _end, limit = 10) {
-  return _topArticlesQuery(companyCode, true, limit);
+async function getTopArticlesByAmount(companyCode, startDate, endDate, limit = 10) {
+  const rows = await ameliaApi.getArticulos(companyCode, startDate, endDate, 'total');
+  const list = Array.isArray(rows) ? rows : (rows.data || rows.articulos || []);
+  return list.slice(0, limit).map(_mapArticleRow);
+}
+
+function _wideRange() {
+  const end = new Date();
+  const start = new Date(end.getFullYear() - 3, 0, 1);
+  return { start, end };
 }
 
 async function searchArticleByName(companyCode, searchString, limit = 6) {
-  const rows = await db.Articulo.findAll({
-    where: { COM_CODIGO: companyCode, ART_NOMBRE: { [Op.like]: `%${searchString}%` } },
-    include: [{ model: db.Grupo, as: 'Grupo', attributes: ['GRUP_NOMBRE'] }],
-    limit
-  });
-  return rows.map(a => ({
-    codigo:   a.ART_CODIGO,
-    nombre:   a.ART_NOMBRE,
-    codPpal:  a.ART_CODIGOPRINCIPAL,
-    grupo:    a.Grupo ? a.Grupo.GRUP_NOMBRE : 'General'
+  const { start, end } = _wideRange();
+  const rows = await ameliaApi.getArticulo(companyCode, start, end, searchString);
+  const list = Array.isArray(rows) ? rows : (rows.data || rows.articulos || []);
+  return list.slice(0, limit).map(a => ({
+    codigo:  a.artCodigo  || a.ART_CODIGO             || null,
+    nombre:  a.nombre     || a.descripcion            || a.ART_NOMBRE || 'N/D',
+    codPpal: a.codigo     || a.codPpal                || a.ART_CODIGOPRINCIPAL || '',
+    grupo:   a.grupo      || a.categoria              || a.GRUP_NOMBRE || 'General'
   }));
 }
 
 async function searchArticleByCode(companyCode, code) {
-  const a = await db.Articulo.findOne({
-    where: { COM_CODIGO: companyCode, ART_CODIGOPRINCIPAL: code },
-    include: [{ model: db.Grupo, as: 'Grupo', attributes: ['GRUP_NOMBRE'] }]
-  });
-  if (!a) return null;
-  return { codigo: a.ART_CODIGO, nombre: a.ART_NOMBRE, codPpal: a.ART_CODIGOPRINCIPAL, grupo: a.Grupo ? a.Grupo.GRUP_NOMBRE : 'General' };
+  const { start, end } = _wideRange();
+  const rows = await ameliaApi.getArticulo(companyCode, start, end, code);
+  const list = Array.isArray(rows) ? rows : (rows.data || rows.articulos || []);
+  if (!list.length) return null;
+  const a = list[0];
+  return {
+    codigo:  a.artCodigo  || a.ART_CODIGO             || null,
+    nombre:  a.nombre     || a.descripcion            || a.ART_NOMBRE || 'N/D',
+    codPpal: a.codigo     || a.codPpal                || a.ART_CODIGOPRINCIPAL || '',
+    grupo:   a.grupo      || a.categoria              || a.GRUP_NOMBRE || 'General'
+  };
 }
 
 async function getArticleById(companyCode, artCodigo) {

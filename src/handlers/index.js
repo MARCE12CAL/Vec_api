@@ -6,6 +6,7 @@ const clientsHandler = require('./clientsHandler');
 const articlesHandler = require('./articlesHandler');
 const { resolveShortcut } = require('../utils/waHelpers');
 const waHelpers = require('../utils/waHelpers');
+const IC = require('../utils/icons');
 
 async function routeMessage(sock, jid, messageText) {
   // Resuelve "1", "2", "3" al ID real del último menú enviado a este JID
@@ -14,14 +15,14 @@ async function routeMessage(sock, jid, messageText) {
 
   if (text.toLowerCase() === 'salir' || text.toLowerCase() === 'logout') {
     await resetSession(jid);
-    await waHelpers.sendText(sock, jid, '🚪 Sesión cerrada. Envía cualquier mensaje para volver a ingresar.');
+    await waHelpers.sendText(sock, jid, `${IC.LOGOUT} Sesión cerrada. Envía cualquier mensaje para volver a ingresar.`);
     return;
   }
 
   const authenticated = !['WELCOME', 'AWAITING_RUC', 'AWAITING_PASSWORD'].includes(session.state);
   if (authenticated && ['volver', 'cancelar', 'atras', 'volver_menu'].includes(text.toLowerCase())) {
     await updateSession(jid, { state: 'MAIN_MENU' });
-    await menuHandler.showMainMenu(sock, jid, session.COM_CODIGO);
+    await menuHandler.showMainMenu(sock, jid, session.COM_CODIGO, session.COM_NOMBRE);
     return;
   }
 
@@ -92,6 +93,11 @@ async function routeMessage(sock, jid, messageText) {
       break;
     case 'CLIENT_DETAIL':
       await clientsHandler.handleClientDetail(sock, jid, text, session);
+      break;
+
+    // ── Excel ─────────────────────────────────────────────────────────────────
+    case 'SALES_EXCEL_MENU':
+      await salesHandler.handleExcelMenu(sock, jid, text, session);
       break;
 
     // ── Articles ──────────────────────────────────────────────────────────────

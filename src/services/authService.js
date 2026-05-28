@@ -1,46 +1,13 @@
 const { sourceDb: db } = require('../sourceDatabase');
-const axios = require('axios'); // Habilitar si se usa API externa
+const ameliaApi = require('./ameliaApi');
 
-/**
- * Busca una compañía por su RUC o identificación tributaria.
- * @param {string} ruc RUC de la compañía.
- * @returns {Promise<{COM_CODIGO: number, COM_NOMBRE: string}|null>}
- */
 async function getCompanyByRuc(ruc) {
-  // ==========================================
-  // IMPLEMENTACIÓN OPCIÓN A: Base de datos local (Sequelize)
-  // ==========================================
-  const compania = await db.Compania.findOne({
-    where: { COM_RUCI: ruc }
-  });
-  
-  if (!compania) return null;
+  const r = await ameliaApi.getEmpresa(ruc);
+  if (!r) return null;
   return {
-    COM_CODIGO: compania.COM_CODIGO,
-    COM_NOMBRE: compania.COM_NOMBRE
+    COM_CODIGO: r.COM_CODIGO || r.comCodigo || r.codigo || null,
+    COM_NOMBRE: r.COM_NOMBRE || r.comNombre || r.nombre || ''
   };
-
-  // ==========================================
-  // IMPLEMENTACIÓN OPCIÓN B: API REST Externa
-  // ==========================================
-  /*
-  try {
-    const response = await axios.get(`${process.env.API_URL}/companies/validate`, {
-      params: { ruc },
-      headers: { 'Authorization': `Bearer ${process.env.API_TOKEN}` }
-    });
-    if (response.data && response.data.success) {
-      return {
-        COM_CODIGO: response.data.company.code,
-        COM_NOMBRE: response.data.company.name
-      };
-    }
-    return null;
-  } catch (error) {
-    console.error('Error al validar compañía vía API:', error.message);
-    return null;
-  }
-  */
 }
 
 /**

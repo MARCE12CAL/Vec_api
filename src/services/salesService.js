@@ -1,42 +1,30 @@
 const { sourceDb: db } = require('../sourceDatabase');
 const { Op } = require('sequelize');
+const ameliaApi = require('./ameliaApi');
+
 
 async function getSalesSummary(companyCode, startDate, endDate) {
-  const r = await db.FacturaEnc.findOne({
-    attributes: [
-      [db.Sequelize.fn('COUNT', db.Sequelize.col('ENCFAC_CODIGO')), 'totalFacturas'],
-      [db.Sequelize.fn('SUM', db.Sequelize.col('ENCFAC_TOTAL')),    'totalFacturado'],
-      [db.Sequelize.fn('SUM', db.Sequelize.col('ENCFAC_BASEIVA')),  'baseIva'],
-      [db.Sequelize.fn('SUM', db.Sequelize.col('ENCFAC_BASECERO')), 'baseCero'],
-      [db.Sequelize.fn('SUM', db.Sequelize.col('ENCFAC_VALORIVA')), 'ivaCobrado']
-    ],
-    where: { COM_CODIGO: companyCode, ENCFAC_FECHAEMISION: { [Op.between]: [startDate, endDate] } },
-    raw: true
-  });
+  const r = await ameliaApi.getResumen(companyCode, startDate, endDate);
   const total = parseFloat(r.totalFacturado || 0);
-  const count = parseInt(r.totalFacturas || 0);
+  const count = parseInt(r.totalFacturas    || 0);
   return {
-    totalFacturas: count,
+    totalFacturas:  count,
     totalFacturado: total,
-    baseIva:        parseFloat(r.baseIva    || 0),
-    baseCero:       parseFloat(r.baseCero   || 0),
-    ivaCobrado:     parseFloat(r.ivaCobrado || 0),
+    baseIva:        parseFloat(r.baseIva    || r.base_iva    || 0),
+    baseCero:       parseFloat(r.baseCero   || r.base_cero   || 0),
+    ivaCobrado:     parseFloat(r.valorIva   || r.ivaCobrado  || 0),
     promedio:       count > 0 ? total / count : 0
   };
 }
 
 async function getRecentInvoices(companyCode, startDate, endDate, limit = 10) {
-  const rows = await db.FacturaEnc.findAll({
-    where: { COM_CODIGO: companyCode, ENCFAC_FECHAEMISION: { [Op.between]: [startDate, endDate] } },
-    order: [['ENCFAC_FECHAEMISION', 'DESC']],
-    limit,
-    include: [{ model: db.Cliente, as: 'Cliente', attributes: ['CLI_NOMBRE', 'CLI_RUCIDE'] }]
-  });
-  return rows.map(f => ({
-    codigo:        f.ENCFAC_CODIGO,
-    fecha:         f.ENCFAC_FECHAEMISION,
-    clienteNombre: f.Cliente ? f.Cliente.CLI_NOMBRE : 'Consumidor Final',
-    total:         parseFloat(f.ENCFAC_TOTAL)
+  const rows = await ameliaApi.getDetalle(companyCode, startDate, endDate);
+  const list = Array.isArray(rows) ? rows : (rows.data || rows.facturas || rows.detalle || []);
+  return list.slice(0, limit).map(f => ({
+    codigo:        f.codigo        || f.encfacCodigo  || f.ENCFAC_CODIGO       || null,
+    fecha:         f.fecha         || f.fechaEmision  || f.ENCFAC_FECHAEMISION || null,
+    clienteNombre: f.clienteNombre || f.cliente       || f.CLI_NOMBRE          || 'Consumidor Final',
+    total:         parseFloat(f.total || f.totalFactura || f.ENCFAC_TOTAL || 0)
   }));
 }
 
@@ -104,4 +92,8 @@ async function searchInvoicesByClientRuc(companyCode, ruc, limit = 8) {
   }));
 }
 
-module.exports = { getSalesSummary, getRecentInvoices, getInvoiceById, searchInvoicesByClientName, searchInvoicesByClientRuc };
+async function getExcelResumen(companyCode, startDate, endDate) {
+  return ameliaApi.getExcelResumen(companyCode, startDate, endDate);
+}
+
+module.exports = { getSalesSummary, getRecentInvoices, getInvoiceById, searchInvoicesByClientName, searchInvoicesByClientRuc, getExcelResumen };
